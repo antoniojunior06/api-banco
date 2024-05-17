@@ -17,12 +17,17 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     @Query("select c from ClientePF c")
     List<ClientePF> findAllPF();
 
-    @Query("select c from ClientePJ c")
-    List<ClientePJ> findAllPJ();
-
     @Query("select c from ClientePF c where (:nome is null or lower(c.nome) like %:nome%)")
     List<ClientePF> findAllByName(@Param("nome") String nome);
 
     Optional<ClientePF> findByCpf(@Param("cpf") String cpf);
+
+    @Query("select c from ClientePJ c")
+    List<ClientePJ> findAllPJ();
+
+    @Query("select c from ClientePJ c where (:razaoSocial is null or lower(c.razaoSocial) like %:razaoSocial%)")
+    List<ClientePJ> findAllByRazaoSocial(@Param("razaoSocial") String razaoSocial);
+
+    Optional<ClientePJ> findByCnpj(@Param("cnpj") String cnpj);
 
 }

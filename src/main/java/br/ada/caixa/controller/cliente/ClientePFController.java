@@ -1,7 +1,7 @@
 package br.ada.caixa.controller.cliente;
 
 
-import br.ada.caixa.dto.filter.ClientePFFiltro;
+import br.ada.caixa.dto.filter.ClientePFFilter;
 import br.ada.caixa.dto.request.clientePF.AtualizacaoPFRequestDto;
 import br.ada.caixa.dto.request.clientePF.InsercaoPFRequestDto;
 import br.ada.caixa.dto.response.ClientePFResponseDto;
@@ -54,13 +54,13 @@ public class ClientePFController {
     }
 
     @GetMapping("/nome")
-    public ResponseEntity<List<ClientePFResponseDto>> buscarPorNomeOuCpf(ClientePFFiltro filter) {
+    public ResponseEntity<List<ClientePFResponseDto>> buscarPorNome(ClientePFFilter filter) {
         List<ClientePFResponseDto> clientePFResponseDto = clientePFService.buscarPorNome(filter);
         return ResponseEntity.ok(clientePFResponseDto);
     }
 
     @GetMapping("/cpf")
-    public ResponseEntity<ClientePFResponseDto> buscarPorCpf(ClientePFFiltro filter) {
+    public ResponseEntity<ClientePFResponseDto> buscarPorCpf(ClientePFFilter filter) {
         ClientePFResponseDto clientePFResponseDto = clientePFService.buscarPorCpf(filter);
         return ResponseEntity.ok(clientePFResponseDto);
     }

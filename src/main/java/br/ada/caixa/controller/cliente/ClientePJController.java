@@ -1,8 +1,11 @@
 package br.ada.caixa.controller.cliente;
 
 
+import br.ada.caixa.dto.filter.ClientePFFilter;
+import br.ada.caixa.dto.filter.ClientePJFilter;
 import br.ada.caixa.dto.request.clientePJ.AtualizacaoPJRequestDto;
 import br.ada.caixa.dto.request.clientePJ.InsercaoPJRequestDto;
+import br.ada.caixa.dto.response.ClientePFResponseDto;
 import br.ada.caixa.dto.response.ClientePJResponseDto;
 import br.ada.caixa.service.ClientePJService;
 import org.springframework.http.HttpStatus;
@@ -52,11 +55,17 @@ public class ClientePJController {
         return ResponseEntity.ok(clientePJResponseDto);
     }
 
-//    @GetMapping("/doc")
-//    public ResponseEntity<ClientePJResponseDto> buscarPorCnpj(@RequestParam("cnpj") String cnpj) {
-//        ClientePJResponseDto clientePJResponseDto = clientePJService.buscarPorCnpj(cnpj);
-//        return ResponseEntity.ok(clientePJResponseDto);
-//    }
+    @GetMapping("/razao")
+    public ResponseEntity<List<ClientePJResponseDto>> buscarPorRazaoSocial(ClientePJFilter filter) {
+        List<ClientePJResponseDto> clientePJResponseDto = clientePJService.buscarPorRazaoSocial(filter);
+        return ResponseEntity.ok(clientePJResponseDto);
+    }
+
+    @GetMapping("/cnpj")
+    public ResponseEntity<ClientePJResponseDto> buscarPorCnpj(ClientePJFilter filter) {
+        ClientePJResponseDto clientePJResponseDto = clientePJService.buscarPorCnpj(filter);
+        return ResponseEntity.ok(clientePJResponseDto);
+    }
 
 
 

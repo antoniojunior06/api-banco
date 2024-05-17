@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NomeFilterDto {
+public class ClientePFFilter {
 
+    private String cpf;
     private String nome;
 }

@@ -1,7 +1,10 @@
 package br.ada.caixa.service;
 
+import br.ada.caixa.dto.filter.ClientePFFilter;
+import br.ada.caixa.dto.filter.ClientePJFilter;
 import br.ada.caixa.dto.request.clientePJ.AtualizacaoPJRequestDto;
 import br.ada.caixa.dto.request.clientePJ.InsercaoPJRequestDto;
+import br.ada.caixa.dto.response.ClientePFResponseDto;
 import br.ada.caixa.dto.response.ClientePJResponseDto;
 import br.ada.caixa.entity.cliente.ClientePJ;
 import br.ada.caixa.enums.Status;
@@ -61,10 +64,18 @@ public class ClientePJService {
                 .orElseThrow(() -> new ValidacaoException("Cliente não encontrado"));
     }
 
-//    public ClientePJResponseDto buscarPorCnpj(String cnpj) {
-//        return clienteRepository.findByCnpj(cnpj)
-//                .map(cliente -> modelMapper.map(cliente, ClientePJResponseDto.class))
-//                .orElseThrow(() -> new ValidacaoException("Cliente não encontrado"));
-//
-//    }
+    public List<ClientePJResponseDto> buscarPorRazaoSocial(ClientePJFilter filter) {
+        return clienteRepository.findAllByRazaoSocial(filter.getRazaoSocial())
+                .stream()
+                .map(cliente -> modelMapper.map(cliente, ClientePJResponseDto.class))
+                .toList();
+    }
+
+    public ClientePJResponseDto buscarPorCnpj(ClientePJFilter filter) {
+        return clienteRepository.findByCnpj(filter.getCnpj())
+                .map(cliente -> modelMapper.map(cliente, ClientePJResponseDto.class))
+                .orElseThrow(() -> new ValidacaoException("Cliente não encontrado"));
+    }
+
+
 }

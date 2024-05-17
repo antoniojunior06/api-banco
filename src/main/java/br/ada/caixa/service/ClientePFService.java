@@ -1,6 +1,6 @@
 package br.ada.caixa.service;
 
-import br.ada.caixa.dto.filter.ClientePFFiltro;
+import br.ada.caixa.dto.filter.ClientePFFilter;
 import br.ada.caixa.dto.request.clientePF.AtualizacaoPFRequestDto;
 import br.ada.caixa.dto.request.clientePF.InsercaoPFRequestDto;
 import br.ada.caixa.dto.response.ClientePFResponseDto;
@@ -64,14 +64,14 @@ public class ClientePFService {
                 .orElseThrow(() -> new ValidacaoException("Cliente não encontrado"));
     }
 
-    public List<ClientePFResponseDto> buscarPorNome(ClientePFFiltro filter) {
+    public List<ClientePFResponseDto> buscarPorNome(ClientePFFilter filter) {
         return clienteRepository.findAllByName(filter.getNome())
                 .stream()
                 .map(cliente -> modelMapper.map(cliente, ClientePFResponseDto.class))
                 .toList();
     }
 
-    public ClientePFResponseDto buscarPorCpf(ClientePFFiltro filter) {
+    public ClientePFResponseDto buscarPorCpf(ClientePFFilter filter) {
         return clienteRepository.findByCpf(filter.getCpf())
                 .map(cliente -> modelMapper.map(cliente, ClientePFResponseDto.class))
                 .orElseThrow(() -> new ValidacaoException("Cliente não encontrado"));

@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ClientePFFiltro {
+public class ClientePJFilter {
 
-    private String cpf;
-    private String nome;
+    private String cnpj;
+    private String razaoSocial;
 }
