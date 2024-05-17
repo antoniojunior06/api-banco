@@ -27,6 +27,7 @@ public class Conta {
     private LocalDate dataCriacao;
 
     @ManyToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @Enumerated(EnumType.STRING)

@@ -12,10 +12,7 @@ import java.time.LocalDate;
 @Setter
 public class ContaResponseDto {
 
-    private Long id;
     private Integer numero;
     private BigDecimal saldo;
-    private LocalDate dataCriacao;
-    private Cliente cliente;
     private Status status;
 }

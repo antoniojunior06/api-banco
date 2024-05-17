@@ -13,6 +13,4 @@ public class InsercaoPFRequestDto {
 
     private String cpf;
     private String nome;
-    private LocalDate dataCadastro;
-    private Status status;
 }

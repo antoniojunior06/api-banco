@@ -5,14 +5,18 @@ import br.ada.caixa.dto.request.clientePF.AtualizacaoPFRequestDto;
 import br.ada.caixa.dto.request.clientePF.InsercaoPFRequestDto;
 import br.ada.caixa.dto.response.ClientePFResponseDto;
 import br.ada.caixa.entity.cliente.ClientePF;
+import br.ada.caixa.entity.conta.ContaCorrente;
 import br.ada.caixa.enums.Status;
 import br.ada.caixa.exception.ValidacaoException;
 import br.ada.caixa.repository.ClienteRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class ClientePFService {
@@ -31,7 +35,19 @@ public class ClientePFService {
         ClientePF cliente = modelMapper.map(insercaoPFRequestDto, ClientePF.class);
         cliente.setStatus(Status.ATIVO);
         cliente.setDataCadastro(LocalDate.now());
+
+        ContaCorrente contaCorrente = new ContaCorrente();
+        contaCorrente.setNumero(new Random().nextInt());
+        contaCorrente.setDataCriacao(LocalDate.now());
+        contaCorrente.setCliente(cliente);
+        contaCorrente.setSaldo(BigDecimal.ZERO);
+        contaCorrente.setStatus(Status.ATIVO);
+
+        cliente.setContas(new ArrayList<>());
+        cliente.getContas().add(contaCorrente);
+
         cliente = clienteRepository.save(cliente);
+
         return modelMapper.map(cliente, ClientePFResponseDto.class);
     }
 
@@ -76,4 +92,5 @@ public class ClientePFService {
                 .map(cliente -> modelMapper.map(cliente, ClientePFResponseDto.class))
                 .orElseThrow(() -> new ValidacaoException("Cliente não encontrado"));
     }
+
 }
