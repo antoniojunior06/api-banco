@@ -17,8 +17,7 @@ import java.util.List;
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String documento;
 
     private LocalDate dataCadastro;
 

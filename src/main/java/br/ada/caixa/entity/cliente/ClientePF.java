@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 @DiscriminatorValue("PF")
 public class ClientePF extends Cliente {
 
-    private String cpf;
     private String nome;
 
 

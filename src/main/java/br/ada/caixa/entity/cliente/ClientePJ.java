@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 @DiscriminatorValue("PJ")
 public class ClientePJ extends Cliente {
 
-    private String cnpj;
     private String nomeFantasia;
     private String razaoSocial;
 

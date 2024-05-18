@@ -15,4 +15,5 @@ public class ContaResponseDto {
     private Integer numero;
     private BigDecimal saldo;
     private Status status;
+    private String tipo;
 }

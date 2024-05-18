@@ -11,7 +11,6 @@ import java.util.List;
 @Setter
 public class ClientePFResponseDto {
 
-    private Long id;
     private String cpf;
     private String nome;
     private LocalDate dataCadastro;

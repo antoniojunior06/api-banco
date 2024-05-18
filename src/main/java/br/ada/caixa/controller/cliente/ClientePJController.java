@@ -31,14 +31,14 @@ public class ClientePJController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientePJResponseDto> atualizar(@PathVariable Long id,
+    public ResponseEntity<ClientePJResponseDto> atualizar(@PathVariable String id,
                                                           @RequestBody AtualizacaoPJRequestDto atualizacaoPJRequestDto) {
         ClientePJResponseDto clientePJResponseDto = clientePJService.atualizar(id, atualizacaoPJRequestDto);
         return ResponseEntity.ok(clientePJResponseDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> excluir(@PathVariable Long id) {
+    public ResponseEntity<?> excluir(@PathVariable String id) {
         clientePJService.excluir(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -50,22 +50,22 @@ public class ClientePJController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientePJResponseDto> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<ClientePJResponseDto> buscarPorId(@PathVariable String id) {
         ClientePJResponseDto clientePJResponseDto = clientePJService.buscarPorId(id);
         return ResponseEntity.ok(clientePJResponseDto);
     }
 
-    @GetMapping("/razao")
-    public ResponseEntity<List<ClientePJResponseDto>> buscarPorRazaoSocial(ClientePJFilter filter) {
-        List<ClientePJResponseDto> clientePJResponseDto = clientePJService.buscarPorRazaoSocial(filter);
-        return ResponseEntity.ok(clientePJResponseDto);
-    }
-
-    @GetMapping("/cnpj")
-    public ResponseEntity<ClientePJResponseDto> buscarPorCnpj(ClientePJFilter filter) {
-        ClientePJResponseDto clientePJResponseDto = clientePJService.buscarPorCnpj(filter);
-        return ResponseEntity.ok(clientePJResponseDto);
-    }
+//    @GetMapping("/razao")
+//    public ResponseEntity<List<ClientePJResponseDto>> buscarPorRazaoSocial(ClientePJFilter filter) {
+//        List<ClientePJResponseDto> clientePJResponseDto = clientePJService.buscarPorRazaoSocial(filter);
+//        return ResponseEntity.ok(clientePJResponseDto);
+//    }
+//
+//    @GetMapping("/cnpj")
+//    public ResponseEntity<ClientePJResponseDto> buscarPorCnpj(ClientePJFilter filter) {
+//        ClientePJResponseDto clientePJResponseDto = clientePJService.buscarPorCnpj(filter);
+//        return ResponseEntity.ok(clientePJResponseDto);
+//    }
 
 
 

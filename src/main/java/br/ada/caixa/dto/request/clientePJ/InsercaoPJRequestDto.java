@@ -13,6 +13,5 @@ public class InsercaoPJRequestDto {
     private String cnpj;
     private String nomeFantasia;
     private String razaoSocial;
-    private LocalDate dataCadastro;
-    private Status status;
+
 }

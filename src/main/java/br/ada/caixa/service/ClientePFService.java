@@ -6,6 +6,7 @@ import br.ada.caixa.dto.request.clientePF.InsercaoPFRequestDto;
 import br.ada.caixa.dto.response.ClientePFResponseDto;
 import br.ada.caixa.entity.cliente.ClientePF;
 import br.ada.caixa.entity.conta.ContaCorrente;
+import br.ada.caixa.entity.conta.ContaPoupanca;
 import br.ada.caixa.enums.Status;
 import br.ada.caixa.exception.ValidacaoException;
 import br.ada.caixa.repository.ClienteRepository;
@@ -17,18 +18,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientePFService {
 
-    final private ClienteRepository clienteRepository;
-    final private ModelMapper modelMapper;
+    private final ClienteRepository clienteRepository;
+    private final ModelMapper modelMapper;
 
     public ClientePFService(ClienteRepository clienteRepository, ModelMapper modelMapper) {
         this.clienteRepository = clienteRepository;
         this.modelMapper = modelMapper;
-//        this.modelMapper.typeMap(InsercaoPFRequestDto.class, ClientePF.class)
-//                .addMapping(InsercaoPFRequestDto::getCpf, ClientePF::setDocumento);
     }
 
     public ClientePFResponseDto inserir(InsercaoPFRequestDto insercaoPFRequestDto) {
@@ -51,7 +51,7 @@ public class ClientePFService {
         return modelMapper.map(cliente, ClientePFResponseDto.class);
     }
 
-    public ClientePFResponseDto atualizar(Long id, AtualizacaoPFRequestDto atualizacaoPFRequestDto) {
+    public ClientePFResponseDto atualizar(String id, AtualizacaoPFRequestDto atualizacaoPFRequestDto) {
         return clienteRepository.findById(id)
                 .map(cliente -> {
                     modelMapper.map(atualizacaoPFRequestDto, cliente);
@@ -62,7 +62,7 @@ public class ClientePFService {
 
     }
 
-    public void excluir(Long id) {
+    public void excluir(String id) {
         clienteRepository.deleteById(id);
     }
 
@@ -70,11 +70,11 @@ public class ClientePFService {
         return clienteRepository.findAllPF()
                 .stream()
                 .map(cliente -> modelMapper.map(cliente, ClientePFResponseDto.class))
-                .toList();
+                .collect(Collectors.toList());
 
     }
 
-    public ClientePFResponseDto buscarPorId(Long id) {
+    public ClientePFResponseDto buscarPorId(String id) {
         return clienteRepository.findById(id)
                 .map(cliente -> modelMapper.map(cliente, ClientePFResponseDto.class))
                 .orElseThrow(() -> new ValidacaoException("Cliente não encontrado"));
@@ -86,11 +86,29 @@ public class ClientePFService {
                 .map(cliente -> modelMapper.map(cliente, ClientePFResponseDto.class))
                 .toList();
     }
-
-    public ClientePFResponseDto buscarPorCpf(ClientePFFilter filter) {
-        return clienteRepository.findByCpf(filter.getCpf())
-                .map(cliente -> modelMapper.map(cliente, ClientePFResponseDto.class))
-                .orElseThrow(() -> new ValidacaoException("Cliente não encontrado"));
-    }
+//
+//    public ClientePFResponseDto buscarPorCpf(ClientePFFilter filter) {
+//        return clienteRepository.findByCpf(filter.getCpf())
+//                .map(cliente -> modelMapper.map(cliente, ClientePFResponseDto.class))
+//                .orElseThrow(() -> new ValidacaoException("Cliente não encontrado"));
+//    }
+//
+//    public ClientePFResponseDto criarContaPoupanca(InsercaoPFRequestDto insercaoPFRequestDto) {
+//        ClientePF cliente = modelMapper.map(insercaoPFRequestDto, ClientePF.class);
+//
+//        var contaPoupanca = new ContaPoupanca();
+//        contaPoupanca.setNumero(new Random().nextInt());
+//        contaPoupanca.setDataCriacao(LocalDate.now());
+//        contaPoupanca.setCliente(cliente);
+//        contaPoupanca.setSaldo(BigDecimal.ZERO);
+//        contaPoupanca.setStatus(Status.ATIVO);
+//
+//        cliente.setContas(new ArrayList<>());
+//        cliente.getContas().add(contaPoupanca);
+//
+//        cliente = clienteRepository.save(cliente);
+//
+//        return modelMapper.map(cliente, ClientePFResponseDto.class);
+//    }
 
 }

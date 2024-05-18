@@ -29,14 +29,14 @@ public class ClientePFController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientePFResponseDto> atualizar(@PathVariable Long id,
+    public ResponseEntity<ClientePFResponseDto> atualizar(@PathVariable String id,
                                                           @RequestBody AtualizacaoPFRequestDto atualizacaoPFRequestDto) {
         ClientePFResponseDto clientePFResponseDto = clientePFService.atualizar(id, atualizacaoPFRequestDto);
         return ResponseEntity.ok(clientePFResponseDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> excluir(@PathVariable Long id) {
+    public ResponseEntity<?> excluir(@PathVariable String id) {
         clientePFService.excluir(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -48,7 +48,7 @@ public class ClientePFController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientePFResponseDto> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<ClientePFResponseDto> buscarPorId(@PathVariable String id) {
         ClientePFResponseDto clientePFResponseDto = clientePFService.buscarPorId(id);
         return ResponseEntity.ok(clientePFResponseDto);
     }
@@ -59,12 +59,11 @@ public class ClientePFController {
         return ResponseEntity.ok(clientePFResponseDto);
     }
 
-    @GetMapping("/cpf")
-    public ResponseEntity<ClientePFResponseDto> buscarPorCpf(ClientePFFilter filter) {
-        ClientePFResponseDto clientePFResponseDto = clientePFService.buscarPorCpf(filter);
-        return ResponseEntity.ok(clientePFResponseDto);
-    }
-
+//    @PostMapping("/cp")
+//    public ResponseEntity<ClientePFResponseDto> criarContaPoupanca(@RequestBody InsercaoPFRequestDto clienteDto) {
+//        ClientePFResponseDto clientePFResponseDto = clientePFService.criarContaPoupanca(clienteDto);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(clientePFResponseDto);
+//    }
 
 
 }
