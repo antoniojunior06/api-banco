@@ -20,7 +20,7 @@ public class Conta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer numero;
+    private Long numero;
 
     private BigDecimal saldo;
     private LocalDate dataCriacao;

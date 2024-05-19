@@ -41,7 +41,7 @@ public class ClientePFService {
         cliente.setDataCadastro(LocalDate.now());
 
         ContaCorrente contaCorrente = new ContaCorrente();
-        contaCorrente.setNumero(new Random().nextInt());
+        contaCorrente.setNumero(new Random().nextLong());
         contaCorrente.setDataCriacao(LocalDate.now());
         contaCorrente.setCliente(cliente);
         contaCorrente.setSaldo(BigDecimal.ZERO);
@@ -107,7 +107,7 @@ public class ClientePFService {
     private Cliente criarConta(InsercaoPFContaDto insercaoPFContaDto, Conta conta) {
         Cliente cliente = clienteRepository.findByDocumento(insercaoPFContaDto.getCpf()).orElseThrow();
 
-        conta.setNumero(new Random().nextInt());
+        conta.setNumero(new Random().nextLong());
         conta.setDataCriacao(LocalDate.now());
         conta.setCliente(cliente);
         conta.setSaldo(BigDecimal.ZERO);

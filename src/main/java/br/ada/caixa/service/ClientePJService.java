@@ -45,7 +45,7 @@ public class ClientePJService {
 
         ContaCorrente contaCorrente = new ContaCorrente();
 
-        contaCorrente.setNumero(new Random().nextInt());
+        contaCorrente.setNumero(new Random().nextLong());
         contaCorrente.setDataCriacao(LocalDate.now());
         contaCorrente.setCliente(cliente);
         contaCorrente.setSaldo(BigDecimal.ZERO);
@@ -110,7 +110,7 @@ public class ClientePJService {
     private Cliente criarConta(InsercaoPJContaDto insercaoPJContaDto, Conta conta) {
         Cliente cliente = clienteRepository.findByDocumento(insercaoPJContaDto.getCnpj()).orElseThrow();
 
-        conta.setNumero(new Random().nextInt());
+        conta.setNumero(new Random().nextLong());
         conta.setDataCriacao(LocalDate.now());
         conta.setCliente(cliente);
         conta.setSaldo(BigDecimal.ZERO);

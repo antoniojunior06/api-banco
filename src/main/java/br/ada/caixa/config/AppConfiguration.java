@@ -3,17 +3,12 @@ package br.ada.caixa.config;
 import br.ada.caixa.dto.request.clientePF.InsercaoPFRequestDto;
 import br.ada.caixa.dto.request.clientePJ.InsercaoPJRequestDto;
 import br.ada.caixa.dto.response.ClientePFResponseDto;
-
 import br.ada.caixa.dto.response.ClientePJResponseDto;
 import br.ada.caixa.entity.cliente.ClientePF;
 import br.ada.caixa.entity.cliente.ClientePJ;
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.time.LocalDate;
 
 @Configuration
 public class AppConfiguration {
