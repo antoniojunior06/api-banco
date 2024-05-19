@@ -3,7 +3,9 @@ package br.ada.caixa.controller.cliente;
 
 import br.ada.caixa.dto.filter.ClientePFFilter;
 import br.ada.caixa.dto.filter.ClientePJFilter;
+import br.ada.caixa.dto.request.clientePF.InsercaoPFContaDto;
 import br.ada.caixa.dto.request.clientePJ.AtualizacaoPJRequestDto;
+import br.ada.caixa.dto.request.clientePJ.InsercaoPJContaDto;
 import br.ada.caixa.dto.request.clientePJ.InsercaoPJRequestDto;
 import br.ada.caixa.dto.response.ClientePFResponseDto;
 import br.ada.caixa.dto.response.ClientePJResponseDto;
@@ -55,17 +57,23 @@ public class ClientePJController {
         return ResponseEntity.ok(clientePJResponseDto);
     }
 
-//    @GetMapping("/razao")
-//    public ResponseEntity<List<ClientePJResponseDto>> buscarPorRazaoSocial(ClientePJFilter filter) {
-//        List<ClientePJResponseDto> clientePJResponseDto = clientePJService.buscarPorRazaoSocial(filter);
-//        return ResponseEntity.ok(clientePJResponseDto);
-//    }
-//
-//    @GetMapping("/cnpj")
-//    public ResponseEntity<ClientePJResponseDto> buscarPorCnpj(ClientePJFilter filter) {
-//        ClientePJResponseDto clientePJResponseDto = clientePJService.buscarPorCnpj(filter);
-//        return ResponseEntity.ok(clientePJResponseDto);
-//    }
+    @GetMapping("/razao")
+    public ResponseEntity<List<ClientePJResponseDto>> buscarPorRazaoSocial(ClientePJFilter filter) {
+        List<ClientePJResponseDto> clientePJResponseDto = clientePJService.buscarPorRazaoSocial(filter);
+        return ResponseEntity.ok(clientePJResponseDto);
+    }
+
+    @PostMapping("/cp")
+    public ResponseEntity<ClientePJResponseDto> criarContaPoupanca(@RequestBody InsercaoPJContaDto insercaoPJContaDto) {
+        ClientePJResponseDto clientePJResponseDto = clientePJService.adicionarContaPoupanca(insercaoPJContaDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clientePJResponseDto);
+    }
+
+    @PostMapping("/ci")
+    public ResponseEntity<ClientePJResponseDto> criarContaInvestimento(@RequestBody InsercaoPJContaDto insercaoPJContaDto) {
+        ClientePJResponseDto clientePJResponseDto = clientePJService.adicionarContaInvestimento(insercaoPJContaDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clientePJResponseDto);
+    }
 
 
 

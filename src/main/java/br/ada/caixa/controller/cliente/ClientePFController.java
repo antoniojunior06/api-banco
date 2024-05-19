@@ -3,6 +3,7 @@ package br.ada.caixa.controller.cliente;
 
 import br.ada.caixa.dto.filter.ClientePFFilter;
 import br.ada.caixa.dto.request.clientePF.AtualizacaoPFRequestDto;
+import br.ada.caixa.dto.request.clientePF.InsercaoPFContaDto;
 import br.ada.caixa.dto.request.clientePF.InsercaoPFRequestDto;
 import br.ada.caixa.dto.response.ClientePFResponseDto;
 import br.ada.caixa.service.ClientePFService;
@@ -59,11 +60,17 @@ public class ClientePFController {
         return ResponseEntity.ok(clientePFResponseDto);
     }
 
-//    @PostMapping("/cp")
-//    public ResponseEntity<ClientePFResponseDto> criarContaPoupanca(@RequestBody InsercaoPFRequestDto clienteDto) {
-//        ClientePFResponseDto clientePFResponseDto = clientePFService.criarContaPoupanca(clienteDto);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(clientePFResponseDto);
-//    }
+    @PostMapping("/cp")
+    public ResponseEntity<ClientePFResponseDto> criarContaPoupanca(@RequestBody InsercaoPFContaDto insercaoPFContaDto) {
+        ClientePFResponseDto clientePFResponseDto = clientePFService.adicionarContaPoupanca(insercaoPFContaDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clientePFResponseDto);
+    }
+
+    @PostMapping("/ci")
+    public ResponseEntity<ClientePFResponseDto> criarContaInvestimento(@RequestBody InsercaoPFContaDto insercaoPFContaDto) {
+        ClientePFResponseDto clientePFResponseDto = clientePFService.adicionarContaInvestimento(insercaoPFContaDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clientePFResponseDto);
+    }
 
 
 }

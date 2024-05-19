@@ -2,10 +2,14 @@ package br.ada.caixa.service;
 
 import br.ada.caixa.dto.filter.ClientePFFilter;
 import br.ada.caixa.dto.request.clientePF.AtualizacaoPFRequestDto;
+import br.ada.caixa.dto.request.clientePF.InsercaoPFContaDto;
 import br.ada.caixa.dto.request.clientePF.InsercaoPFRequestDto;
 import br.ada.caixa.dto.response.ClientePFResponseDto;
+import br.ada.caixa.entity.cliente.Cliente;
 import br.ada.caixa.entity.cliente.ClientePF;
+import br.ada.caixa.entity.conta.Conta;
 import br.ada.caixa.entity.conta.ContaCorrente;
+import br.ada.caixa.entity.conta.ContaInvestimento;
 import br.ada.caixa.entity.conta.ContaPoupanca;
 import br.ada.caixa.enums.Status;
 import br.ada.caixa.exception.ValidacaoException;
@@ -86,29 +90,35 @@ public class ClientePFService {
                 .map(cliente -> modelMapper.map(cliente, ClientePFResponseDto.class))
                 .toList();
     }
-//
-//    public ClientePFResponseDto buscarPorCpf(ClientePFFilter filter) {
-//        return clienteRepository.findByCpf(filter.getCpf())
-//                .map(cliente -> modelMapper.map(cliente, ClientePFResponseDto.class))
-//                .orElseThrow(() -> new ValidacaoException("Cliente não encontrado"));
-//    }
-//
-//    public ClientePFResponseDto criarContaPoupanca(InsercaoPFRequestDto insercaoPFRequestDto) {
-//        ClientePF cliente = modelMapper.map(insercaoPFRequestDto, ClientePF.class);
-//
-//        var contaPoupanca = new ContaPoupanca();
-//        contaPoupanca.setNumero(new Random().nextInt());
-//        contaPoupanca.setDataCriacao(LocalDate.now());
-//        contaPoupanca.setCliente(cliente);
-//        contaPoupanca.setSaldo(BigDecimal.ZERO);
-//        contaPoupanca.setStatus(Status.ATIVO);
-//
-//        cliente.setContas(new ArrayList<>());
-//        cliente.getContas().add(contaPoupanca);
-//
-//        cliente = clienteRepository.save(cliente);
-//
-//        return modelMapper.map(cliente, ClientePFResponseDto.class);
-//    }
+
+    public ClientePFResponseDto adicionarContaPoupanca(InsercaoPFContaDto insercaoPFContaDto) {
+        var contaPoupanca = new ContaPoupanca();
+        Cliente cliente = criarConta(insercaoPFContaDto, contaPoupanca);
+        return modelMapper.map(cliente, ClientePFResponseDto.class);
+    }
+
+    public ClientePFResponseDto adicionarContaInvestimento(InsercaoPFContaDto insercaoPFContaDto) {
+        var contaInvestimento = new ContaInvestimento();
+        Cliente cliente = criarConta(insercaoPFContaDto, contaInvestimento);
+        return modelMapper.map(cliente, ClientePFResponseDto.class);
+    }
+
+
+    private Cliente criarConta(InsercaoPFContaDto insercaoPFContaDto, Conta conta) {
+        Cliente cliente = clienteRepository.findByDocumento(insercaoPFContaDto.getCpf()).orElseThrow();
+
+        conta.setNumero(new Random().nextInt());
+        conta.setDataCriacao(LocalDate.now());
+        conta.setCliente(cliente);
+        conta.setSaldo(BigDecimal.ZERO);
+        conta.setStatus(Status.ATIVO);
+
+        cliente.setContas(new ArrayList<>());
+        cliente.getContas().add(conta);
+
+        cliente = clienteRepository.save(cliente);
+
+        return cliente;
+    }
 
 }

@@ -2,12 +2,18 @@ package br.ada.caixa.service;
 
 import br.ada.caixa.dto.filter.ClientePFFilter;
 import br.ada.caixa.dto.filter.ClientePJFilter;
+import br.ada.caixa.dto.request.clientePF.InsercaoPFContaDto;
 import br.ada.caixa.dto.request.clientePJ.AtualizacaoPJRequestDto;
+import br.ada.caixa.dto.request.clientePJ.InsercaoPJContaDto;
 import br.ada.caixa.dto.request.clientePJ.InsercaoPJRequestDto;
 import br.ada.caixa.dto.response.ClientePFResponseDto;
 import br.ada.caixa.dto.response.ClientePJResponseDto;
+import br.ada.caixa.entity.cliente.Cliente;
 import br.ada.caixa.entity.cliente.ClientePJ;
+import br.ada.caixa.entity.conta.Conta;
 import br.ada.caixa.entity.conta.ContaCorrente;
+import br.ada.caixa.entity.conta.ContaInvestimento;
+import br.ada.caixa.entity.conta.ContaPoupanca;
 import br.ada.caixa.enums.Status;
 import br.ada.caixa.exception.ValidacaoException;
 import br.ada.caixa.repository.ClienteRepository;
@@ -81,18 +87,41 @@ public class ClientePJService {
                 .orElseThrow(() -> new ValidacaoException("Cliente não encontrado"));
     }
 
-//    public List<ClientePJResponseDto> buscarPorRazaoSocial(ClientePJFilter filter) {
-//        return clienteRepository.findAllByRazaoSocial(filter.getRazaoSocial())
-//                .stream()
-//                .map(cliente -> modelMapper.map(cliente, ClientePJResponseDto.class))
-//                .toList();
-//    }
-//
-//    public ClientePJResponseDto buscarPorCnpj(ClientePJFilter filter) {
-//        return clienteRepository.findByCnpj(filter.getCnpj())
-//                .map(cliente -> modelMapper.map(cliente, ClientePJResponseDto.class))
-//                .orElseThrow(() -> new ValidacaoException("Cliente não encontrado"));
-//    }
+    public List<ClientePJResponseDto> buscarPorRazaoSocial(ClientePJFilter filter) {
+        return clienteRepository.findAllByRazaoSocial(filter.getRazaoSocial())
+                .stream()
+                .map(cliente -> modelMapper.map(cliente, ClientePJResponseDto.class))
+                .toList();
+    }
 
+
+    public ClientePJResponseDto adicionarContaPoupanca(InsercaoPJContaDto insercaoPJContaDto) {
+        var contaPoupanca = new ContaPoupanca();
+        Cliente cliente = criarConta(insercaoPJContaDto, contaPoupanca);
+        return modelMapper.map(cliente, ClientePJResponseDto.class);
+    }
+
+    public ClientePJResponseDto adicionarContaInvestimento(InsercaoPJContaDto insercaoPJContaDto) {
+        var contaInvestimento = new ContaInvestimento();
+        Cliente cliente = criarConta(insercaoPJContaDto, contaInvestimento);
+        return modelMapper.map(cliente, ClientePJResponseDto.class);
+    }
+
+    private Cliente criarConta(InsercaoPJContaDto insercaoPJContaDto, Conta conta) {
+        Cliente cliente = clienteRepository.findByDocumento(insercaoPJContaDto.getCnpj()).orElseThrow();
+
+        conta.setNumero(new Random().nextInt());
+        conta.setDataCriacao(LocalDate.now());
+        conta.setCliente(cliente);
+        conta.setSaldo(BigDecimal.ZERO);
+        conta.setStatus(Status.ATIVO);
+
+        cliente.setContas(new ArrayList<>());
+        cliente.getContas().add(conta);
+
+        cliente = clienteRepository.save(cliente);
+
+        return cliente;
+    }
 
 }
