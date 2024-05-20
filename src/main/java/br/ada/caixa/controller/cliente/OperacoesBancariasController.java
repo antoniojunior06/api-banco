@@ -1,6 +1,7 @@
 package br.ada.caixa.controller.cliente;
 
 import br.ada.caixa.dto.request.DepositoRequestDto;
+import br.ada.caixa.dto.request.InvestimentoRequestDto;
 import br.ada.caixa.dto.request.SaqueRequestDto;
 import br.ada.caixa.dto.request.TransferenciaRequestDto;
 import br.ada.caixa.dto.response.ContaResponseDto;
@@ -44,8 +45,9 @@ public class OperacoesBancariasController {
     }
 
     @PostMapping("/investimento")
-    public void investir() {
-
+    public ResponseEntity<ContaResponseDto> investir(@RequestBody InvestimentoRequestDto investimentoRequestDto) {
+        ContaResponseDto contaResponseDto = contaService.investir(investimentoRequestDto);
+        return ResponseEntity.ok(contaResponseDto);
     }
 
 }
